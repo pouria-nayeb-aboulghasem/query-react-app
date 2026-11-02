@@ -54,6 +54,18 @@ function Navbar() {
       >
         Cache posts
       </NavLink>
+      <NavLink
+        to="/paging"
+        className={({ isActive }) =>
+          `rounded-full px-4 py-2 text-sm font-semibold transition ${
+            isActive
+              ? "bg-amber-300 text-slate-950"
+              : "border border-white/10 text-slate-300 hover:border-amber-300/40 hover:text-white"
+          }`
+        }
+      >
+        Pagination
+      </NavLink>
     </nav>
   );
 }

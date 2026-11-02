@@ -18,6 +18,7 @@ function PaginatedPosts() {
     placeholderData: keepPreviousData,
   });
 
+  // LOADING
   if (isLoading) {
     return (
       <section className="mx-auto max-w-7xl px-5 py-12 sm:px-8 sm:py-16">
@@ -34,6 +35,7 @@ function PaginatedPosts() {
     );
   }
 
+  // ERROR
   if (error) {
     return (
       <section className="mx-auto max-w-7xl px-5 py-12 sm:px-8 sm:py-16">
@@ -57,6 +59,7 @@ function PaginatedPosts() {
 
   return (
     <section className="mx-auto max-w-7xl px-5 py-12 sm:px-8 sm:py-16">
+      {/* HEADER */}
       <header className="mb-9 flex flex-col justify-between gap-5 sm:flex-row sm:items-end">
         <div>
           <span className="inline-flex items-center gap-2 rounded-full border border-violet-300/20 bg-violet-300/10 px-3 py-1.5 text-xs font-semibold text-violet-200">
@@ -70,6 +73,8 @@ function PaginatedPosts() {
             Explore the collection one page at a time.
           </p>
         </div>
+
+        {/* INDICATOR: current page */}
         <div className="flex items-center gap-3 self-start rounded-xl border border-white/10 bg-white/4 px-4 py-3 sm:self-auto">
           <span className="grid size-9 place-items-center rounded-lg bg-violet-300/10 text-sm font-bold text-violet-200">
             {page}
@@ -83,6 +88,7 @@ function PaginatedPosts() {
         </div>
       </header>
 
+      {/* COUNT: page list */}
       <div className="mb-5 flex items-center justify-between">
         <h2 className="text-sm font-semibold text-slate-300">Posts</h2>
         <span className="text-xs text-slate-500">
@@ -91,6 +97,7 @@ function PaginatedPosts() {
       </div>
 
       {posts?.length ? (
+        // list of post
         <ul
           className={`grid gap-5 transition-opacity sm:grid-cols-2 lg:grid-cols-3 ${
             isPlaceholderData ? "opacity-50" : "opacity-100"
@@ -143,6 +150,7 @@ function PaginatedPosts() {
           ))}
         </ul>
       ) : (
+        // no post
         <div className="rounded-2xl border border-dashed border-white/15 bg-white/3 px-6 py-16 text-center">
           <p className="text-lg font-bold text-white">No posts on this page</p>
           <p className="mt-2 text-sm text-slate-400">
@@ -155,10 +163,12 @@ function PaginatedPosts() {
         aria-label="Post pages"
         className="mt-8 flex flex-col items-center justify-between gap-4 rounded-2xl border border-white/10 bg-white/3 p-4 sm:flex-row sm:px-5"
       >
+        {/* INDICATOR: current page */}
         <p className="text-sm text-slate-400">
           Showing <span className="font-semibold text-white">page {page}</span>
         </p>
         <div className="flex w-full gap-3 sm:w-auto">
+          {/* BUTTON: prev page */}
           <button
             className="inline-flex min-h-10 flex-1 items-center justify-center gap-2 rounded-xl border border-white/10 px-4 text-sm font-semibold text-slate-300 transition hover:border-white/20 hover:bg-white/5 hover:text-white focus:outline-none focus:ring-2 focus:ring-violet-300/40 disabled:cursor-not-allowed disabled:opacity-40 sm:flex-none"
             onClick={() => setPage(Math.max(page - 1, 1))}
@@ -168,6 +178,8 @@ function PaginatedPosts() {
             <span aria-hidden="true">←</span>
             Previous
           </button>
+
+          {/* BUTTON: next page */}
           <button
             className="inline-flex min-h-10 flex-1 items-center justify-center gap-2 rounded-xl bg-violet-300 px-4 text-sm font-bold text-slate-950 transition hover:bg-violet-200 focus:outline-none focus:ring-4 focus:ring-violet-300/20 disabled:cursor-wait disabled:opacity-60 sm:flex-none"
             onClick={() => setPage(page + 1)}
