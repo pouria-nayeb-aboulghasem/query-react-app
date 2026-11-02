@@ -14,8 +14,8 @@ function CachePosts() {
   } = useQuery<Post[]>({
     queryFn: getPosts,
     queryKey: ["posts"],
-    staleTime: 5 * 1000,
-    gcTime: 5 * 1000,
+    staleTime: 60 * 1000, // fresh data
+    gcTime: 60 * 1000, // in memory time
     refetchOnWindowFocus: true,
     refetchOnReconnect: true,
   });
@@ -27,7 +27,7 @@ function CachePosts() {
         <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {Array.from({ length: 6 }, (_, index) => (
             <div
-              className="h-56 animate-pulse rounded-2xl border border-white/10 bg-white/[0.04]"
+              className="h-56 animate-pulse rounded-2xl border border-white/10 bg-white/4"
               key={index}
             />
           ))}
@@ -74,8 +74,9 @@ function CachePosts() {
           </p>
         </div>
 
+        {/* BUTTON: refetch post list */}
         <button
-          className="inline-flex min-h-11 items-center justify-center gap-2 self-start rounded-xl border border-white/10 bg-white/[0.05] px-4 text-sm font-semibold text-slate-200 transition hover:border-white/20 hover:bg-white/10 focus:outline-none focus:ring-4 focus:ring-emerald-300/10 disabled:cursor-wait disabled:opacity-60 sm:self-auto"
+          className="inline-flex min-h-11 items-center justify-center gap-2 self-start rounded-xl border border-white/10 bg-white/5 px-4 text-sm font-semibold text-slate-200 transition hover:border-white/20 hover:bg-white/10 focus:outline-none focus:ring-4 focus:ring-emerald-300/10 disabled:cursor-wait disabled:opacity-60 sm:self-auto"
           disabled={isFetching}
           onClick={() => refetch()}
           type="button"
@@ -87,7 +88,8 @@ function CachePosts() {
         </button>
       </header>
 
-      <div className="mb-6 flex flex-col gap-4 rounded-2xl border border-white/10 bg-white/[0.03] p-4 sm:flex-row sm:items-center sm:justify-between sm:px-5">
+      <div className="mb-6 flex flex-col gap-4 rounded-2xl border border-white/10 bg-white/3 p-4 sm:flex-row sm:items-center sm:justify-between sm:px-5">
+        {/* INDICATOR: data status and time */}
         <div className="flex items-center gap-3">
           <span
             className={`grid size-10 place-items-center rounded-xl ${
@@ -103,6 +105,7 @@ function CachePosts() {
             <p className="text-sm font-semibold text-white">
               {isFetching ? "Syncing with server" : "Data ready"}
             </p>
+            {/* LatestUpdateTime */}
             <p className="mt-0.5 text-xs text-slate-400">
               {dataUpdatedAt
                 ? `Last updated ${new Date(dataUpdatedAt).toLocaleTimeString()}`
@@ -110,6 +113,8 @@ function CachePosts() {
             </p>
           </div>
         </div>
+
+        {/* ALERT: data status */}
         <div className="flex items-center gap-2 self-start rounded-full border border-white/10 px-3 py-1.5 sm:self-auto">
           <span
             className={`size-1.5 rounded-full ${
@@ -122,6 +127,7 @@ function CachePosts() {
         </div>
       </div>
 
+      {/* error */}
       {isError && (
         <div
           className="mb-5 rounded-xl border border-red-400/20 bg-red-400/5 px-4 py-3 text-sm text-red-200"
@@ -132,17 +138,16 @@ function CachePosts() {
       )}
 
       {posts?.length ? (
+        // post list
         <>
           <div className="mb-5 flex items-center justify-between">
             <h2 className="text-sm font-semibold text-slate-300">Your posts</h2>
-            <span className="text-xs text-slate-500">
-              {posts.length} posts
-            </span>
+            <span className="text-xs text-slate-500">{posts.length} posts</span>
           </div>
           <ul className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {posts.map((post, index) => (
               <li
-                className="group relative flex min-h-56 flex-col overflow-hidden rounded-2xl border border-white/10 bg-white/[0.04] p-5 shadow-lg shadow-black/10 transition duration-300 hover:-translate-y-1 hover:border-emerald-300/30 hover:bg-white/[0.07] sm:p-6"
+                className="group relative flex min-h-56 flex-col overflow-hidden rounded-2xl border border-white/10 bg-white/4 p-5 shadow-lg shadow-black/10 transition duration-300 hover:-translate-y-1 hover:border-emerald-300/30 hover:bg-white/[0.07] sm:p-6"
                 key={post.id}
               >
                 <div
@@ -172,14 +177,16 @@ function CachePosts() {
                   {post.body}
                 </p>
                 <div className="mt-5 border-t border-white/10 pt-4 text-xs text-slate-500">
-                  Shared by <span className="text-slate-300">User {post.userId}</span>
+                  Shared by{" "}
+                  <span className="text-slate-300">User {post.userId}</span>
                 </div>
               </li>
             ))}
           </ul>
         </>
       ) : (
-        <div className="rounded-2xl border border-dashed border-white/15 bg-white/[0.03] px-6 py-16 text-center">
+        // no post
+        <div className="rounded-2xl border border-dashed border-white/15 bg-white/3 px-6 py-16 text-center">
           <p className="text-lg font-bold text-white">No cached posts</p>
           <p className="mt-2 text-sm text-slate-400">
             Try refreshing to load the latest posts.
