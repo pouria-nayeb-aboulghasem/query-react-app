@@ -14,6 +14,7 @@ function Posts() {
     queryKey: ["posts"],
   });
 
+  // loading
   if (isLoading) {
     return (
       <section className="mx-auto max-w-7xl px-5 py-14 sm:px-8">
@@ -30,6 +31,7 @@ function Posts() {
     );
   }
 
+  // error
   if (error) {
     return (
       <section className="mx-auto max-w-7xl px-5 py-14 sm:px-8">
