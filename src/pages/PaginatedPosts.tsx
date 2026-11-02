@@ -25,7 +25,7 @@ function PaginatedPosts() {
         <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {Array.from({ length: 6 }, (_, index) => (
             <div
-              className="h-56 animate-pulse rounded-2xl border border-white/10 bg-white/[0.04]"
+              className="h-56 animate-pulse rounded-2xl border border-white/10 bg-white/4"
               key={index}
             />
           ))}
@@ -70,7 +70,7 @@ function PaginatedPosts() {
             Explore the collection one page at a time.
           </p>
         </div>
-        <div className="flex items-center gap-3 self-start rounded-xl border border-white/10 bg-white/[0.04] px-4 py-3 sm:self-auto">
+        <div className="flex items-center gap-3 self-start rounded-xl border border-white/10 bg-white/4 px-4 py-3 sm:self-auto">
           <span className="grid size-9 place-items-center rounded-lg bg-violet-300/10 text-sm font-bold text-violet-200">
             {page}
           </span>
@@ -99,7 +99,7 @@ function PaginatedPosts() {
         >
           {posts.map((post, index) => (
             <li
-              className="group relative flex min-h-56 flex-col overflow-hidden rounded-2xl border border-white/10 bg-white/[0.04] p-5 shadow-lg shadow-black/10 transition duration-300 hover:-translate-y-1 hover:border-violet-300/30 hover:bg-white/[0.07] sm:p-6"
+              className="group relative flex min-h-56 flex-col overflow-hidden rounded-2xl border border-white/10 bg-white/4 p-5 shadow-lg shadow-black/10 transition duration-300 hover:-translate-y-1 hover:border-violet-300/30 hover:bg-white/[0.07] sm:p-6"
               key={post.id}
             >
               <div
@@ -143,7 +143,7 @@ function PaginatedPosts() {
           ))}
         </ul>
       ) : (
-        <div className="rounded-2xl border border-dashed border-white/15 bg-white/[0.03] px-6 py-16 text-center">
+        <div className="rounded-2xl border border-dashed border-white/15 bg-white/3 px-6 py-16 text-center">
           <p className="text-lg font-bold text-white">No posts on this page</p>
           <p className="mt-2 text-sm text-slate-400">
             Try another page to keep exploring.
@@ -153,7 +153,7 @@ function PaginatedPosts() {
 
       <nav
         aria-label="Post pages"
-        className="mt-8 flex flex-col items-center justify-between gap-4 rounded-2xl border border-white/10 bg-white/[0.03] p-4 sm:flex-row sm:px-5"
+        className="mt-8 flex flex-col items-center justify-between gap-4 rounded-2xl border border-white/10 bg-white/3 p-4 sm:flex-row sm:px-5"
       >
         <p className="text-sm text-slate-400">
           Showing <span className="font-semibold text-white">page {page}</span>
