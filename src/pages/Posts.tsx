@@ -21,7 +21,7 @@ function Posts() {
         <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {Array.from({ length: 6 }, (_, index) => (
             <div
-              className="h-56 animate-pulse rounded-2xl border border-white/10 bg-white/[0.04]"
+              className="h-56 animate-pulse rounded-2xl border border-white/10 bg-white/4"
               key={index}
             />
           ))}
@@ -79,7 +79,7 @@ function Posts() {
         <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {posts.map((post, index) => (
             <article
-              className="group relative flex min-h-64 flex-col overflow-hidden rounded-2xl border border-white/10 bg-white/[0.04] p-5 shadow-lg shadow-black/10 transition duration-300 hover:-translate-y-1 hover:border-amber-300/30 hover:bg-white/[0.07] sm:p-6"
+              className="group relative flex min-h-64 flex-col overflow-hidden rounded-2xl border border-white/10 bg-white/4 p-5 shadow-lg shadow-black/10 transition duration-300 hover:-translate-y-1 hover:border-amber-300/30 hover:bg-white/[0.07] sm:p-6"
               key={post.id}
             >
               <div
@@ -126,7 +126,7 @@ function Posts() {
           ))}
         </div>
       ) : (
-        <div className="rounded-2xl border border-dashed border-white/15 bg-white/[0.03] px-6 py-16 text-center">
+        <div className="rounded-2xl border border-dashed border-white/15 bg-white/3 px-6 py-16 text-center">
           <p className="text-lg font-bold text-white">Nothing here yet</p>
           <p className="mt-2 text-sm text-slate-400">
             Posts will show up here when they’re available.
