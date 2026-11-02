@@ -77,6 +77,7 @@ function Posts() {
         </p>
       </header>
 
+      {/* if post exist */}
       {posts?.length ? (
         <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {posts.map((post, index) => (
@@ -128,6 +129,7 @@ function Posts() {
           ))}
         </div>
       ) : (
+        // if post not exist
         <div className="rounded-2xl border border-dashed border-white/15 bg-white/3 px-6 py-16 text-center">
           <p className="text-lg font-bold text-white">Nothing here yet</p>
           <p className="mt-2 text-sm text-slate-400">
