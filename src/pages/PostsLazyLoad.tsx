@@ -47,7 +47,7 @@ function PostsLazyLoad() {
           ) : (
             <>
               <button
-                className="inline-flex min-h-11 items-center justify-center gap-2 rounded-xl border border-white/10 bg-white/[0.05] px-4 text-sm font-semibold text-slate-200 transition hover:border-white/20 hover:bg-white/10 focus:outline-none focus:ring-4 focus:ring-white/10 disabled:cursor-wait disabled:opacity-60"
+                className="inline-flex min-h-11 items-center justify-center gap-2 rounded-xl border border-white/10 bg-white/5 px-4 text-sm font-semibold text-slate-200 transition hover:border-white/20 hover:bg-white/10 focus:outline-none focus:ring-4 focus:ring-white/10 disabled:cursor-wait disabled:opacity-60"
                 disabled={isLoading}
                 onClick={() => refetch()}
                 type="button"
@@ -64,15 +64,17 @@ function PostsLazyLoad() {
       </header>
 
       {isLoading ? (
+        // loading
         <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {Array.from({ length: 6 }, (_, index) => (
             <div
-              className="h-56 animate-pulse rounded-2xl border border-white/10 bg-white/[0.04]"
+              className="h-56 animate-pulse rounded-2xl border border-white/10 bg-white/4"
               key={index}
             />
           ))}
         </div>
       ) : isError ? (
+        // error
         <div
           className="rounded-2xl border border-red-400/20 bg-red-400/5 p-8 text-center"
           role="alert"
@@ -88,19 +90,16 @@ function PostsLazyLoad() {
           </button>
         </div>
       ) : posts?.length ? (
+        // list of post exist
         <>
           <div className="mb-5 flex items-center justify-between">
-            <h2 className="text-sm font-semibold text-slate-300">
-              Your feed
-            </h2>
-            <span className="text-xs text-slate-500">
-              {posts.length} posts
-            </span>
+            <h2 className="text-sm font-semibold text-slate-300">Your feed</h2>
+            <span className="text-xs text-slate-500">{posts.length} posts</span>
           </div>
           <ul className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {posts.map((post, index) => (
               <li
-                className="group relative flex min-h-56 flex-col overflow-hidden rounded-2xl border border-white/10 bg-white/[0.04] p-5 shadow-lg shadow-black/10 transition duration-300 hover:-translate-y-1 hover:border-cyan-300/30 hover:bg-white/[0.07] sm:p-6"
+                className="group relative flex min-h-56 flex-col overflow-hidden rounded-2xl border border-white/10 bg-white/4 p-5 shadow-lg shadow-black/10 transition duration-300 hover:-translate-y-1 hover:border-cyan-300/30 hover:bg-white/[0.07] sm:p-6"
                 key={post.id}
               >
                 <div
@@ -122,14 +121,16 @@ function PostsLazyLoad() {
                   {post.body}
                 </p>
                 <div className="mt-5 border-t border-white/10 pt-4 text-xs text-slate-500">
-                  Shared by <span className="text-slate-300">User {post.userId}</span>
+                  Shared by{" "}
+                  <span className="text-slate-300">User {post.userId}</span>
                 </div>
               </li>
             ))}
           </ul>
         </>
       ) : (
-        <div className="rounded-2xl border border-dashed border-white/15 bg-white/[0.03] px-6 py-16 text-center">
+        // no post record exist
+        <div className="rounded-2xl border border-dashed border-white/15 bg-white/3 px-6 py-16 text-center">
           <span className="mx-auto grid size-12 place-items-center rounded-2xl bg-cyan-300/10 text-xl text-cyan-200">
             ↓
           </span>
