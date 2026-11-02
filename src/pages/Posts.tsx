@@ -12,7 +12,6 @@ function Posts() {
   } = useQuery<Post[]>({
     queryFn: getPosts,
     queryKey: ["posts"],
-    staleTime: 6 * 1000,
   });
 
   if (isLoading) {
@@ -69,7 +68,9 @@ function Posts() {
           </p>
         </div>
         <p className="text-sm font-medium text-slate-400">
-          <span className="text-2xl font-bold text-white">{posts?.length ?? 0}</span>{" "}
+          <span className="text-2xl font-bold text-white">
+            {posts?.length ?? 0}
+          </span>{" "}
           posts to explore
         </p>
       </header>
@@ -111,7 +112,8 @@ function Posts() {
 
               <div className="mt-6 flex items-center justify-between border-t border-white/10 pt-4">
                 <span className="text-xs text-slate-500">
-                  Shared by <span className="text-slate-300">User {post.userId}</span>
+                  Shared by{" "}
+                  <span className="text-slate-300">User {post.userId}</span>
                 </span>
                 <Link
                   className="rounded-lg px-3 py-2 text-xs font-bold text-amber-200 transition hover:bg-amber-300/10 hover:text-amber-100 focus:outline-none focus:ring-2 focus:ring-amber-300/50"
