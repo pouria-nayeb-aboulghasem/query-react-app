@@ -53,10 +53,12 @@ function OptimisticUI() {
   } = useMutation<Post, Error, UpdatePostVariables, UpdatePostContext>({
     mutationFn: ({ id: postIdToUpdate, post: updatedFields }) =>
       updatePost(postIdToUpdate, updatedFields),
+
     mutationKey: ["posts", "update"],
+
     // UI: update
     onMutate: async ({ id: postIdToUpdate, post: updatedFields }) => {
-      // cancel ongoing queries
+      // CANCEL: ongoing queries
       await queryClient.cancelQueries({ queryKey: ["posts"] });
 
       // SNAPSHOT: get prev data
@@ -75,12 +77,12 @@ function OptimisticUI() {
     },
     onError: (_error, _variables, context) => {
       if (context?.previousPosts) {
-        // rollback if the server request fails
+        // ROLLBACK: if server request fails
         queryClient.setQueryData(["posts"], context.previousPosts);
       }
     },
     onSuccess: (updatedPost) => {
-      // update UI
+      // UI: update specific post
       queryClient.setQueryData<Post[]>(["posts"], (currentPosts) =>
         currentPosts?.map((currentPost) =>
           currentPost.id === updatedPost.id ? updatedPost : currentPost,
@@ -104,7 +106,8 @@ function OptimisticUI() {
   } = useForm<CreatePost>({
     defaultValues: { title: "", body: "", userId: 1 },
   });
-  //
+
+  // live watch
   const titleValue = useWatch({ control, name: "title" });
   const bodyValue = useWatch({ control, name: "body" });
 
