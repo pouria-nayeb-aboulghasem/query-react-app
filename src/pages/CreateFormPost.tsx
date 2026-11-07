@@ -160,7 +160,7 @@ function CreateFormPost() {
           </label>
         </div>
 
-        <div className="flex flex-col-reverse gap-3 border-t border-white/10 bg-white/[0.02] px-5 py-5 sm:flex-row sm:items-center sm:justify-between sm:px-7">
+        <div className="flex flex-col-reverse gap-3 border-t border-white/10 bg-white/2 px-5 py-5 sm:flex-row sm:items-center sm:justify-between sm:px-7">
           <p className="text-xs text-slate-500">
             Your post will be added to the community feed.
           </p>

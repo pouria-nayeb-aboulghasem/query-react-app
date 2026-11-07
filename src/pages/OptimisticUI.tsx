@@ -151,7 +151,7 @@ function OptimisticUI() {
     return (
       <section className="mx-auto max-w-3xl px-5 py-16 sm:px-8">
         <div
-          className="rounded-2xl border border-white/10 bg-white/[0.04] p-8 text-center"
+          className="rounded-2xl border border-white/10 bg-white/4 p-8 text-center"
           role="status"
         >
           <div className="mx-auto size-8 animate-spin rounded-full border-2 border-white/15 border-t-amber-300" />
@@ -352,7 +352,7 @@ function OptimisticUI() {
             </label>
           </div>
 
-          <div className="flex flex-col-reverse gap-3 border-t border-white/10 bg-white/[0.02] px-5 py-5 sm:flex-row sm:items-center sm:justify-between sm:px-7">
+          <div className="flex flex-col-reverse gap-3 border-t border-white/10 bg-white/2 px-5 py-5 sm:flex-row sm:items-center sm:justify-between sm:px-7">
             <p className="text-xs text-slate-500">
               Changes are saved when you update the post.
             </p>
@@ -392,16 +392,16 @@ function OptimisticUI() {
               <p className="mb-3 text-[10px] font-bold uppercase tracking-[0.2em] text-amber-200">
                 Post #{post.id}
               </p>
-              <h3 className="break-words text-lg font-bold leading-snug text-white">
+              <h3 className="wrap-break-word text-lg font-bold leading-snug text-white">
                 {titleValue || "Your post title"}
               </h3>
-              <p className="mt-3 whitespace-pre-wrap break-words text-sm leading-6 text-slate-400">
+              <p className="mt-3 whitespace-pre-wrap wrap-break-word text-sm leading-6 text-slate-400">
                 {bodyValue || "Your post content will appear here as you type."}
               </p>
             </article>
           </div>
 
-          <div className="rounded-2xl border border-amber-300/15 bg-amber-300/[0.05] p-5 sm:p-6">
+          <div className="rounded-2xl border border-amber-300/15 bg-amber-300/5 p-5 sm:p-6">
             <h2 className="text-sm font-bold text-amber-100">Quick tips</h2>
             <ul className="mt-4 space-y-3 text-sm leading-5 text-slate-300">
               <li className="flex gap-2.5">
