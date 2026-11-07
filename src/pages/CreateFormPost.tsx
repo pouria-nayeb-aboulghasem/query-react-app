@@ -5,8 +5,13 @@ import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 
 function CreateFormPost() {
+  // fetch fresh data
   const queryClient = useQueryClient();
+
+  // redirect to list page
   const navigate = useNavigate();
+
+  // add new post
   const {
     mutate,
     isPending,
@@ -17,6 +22,8 @@ function CreateFormPost() {
     onSuccess: () => navigate("/"),
     onSettled: () => queryClient.invalidateQueries({ queryKey: ["posts"] }),
   });
+
+  // react hook form api
   const {
     register,
     handleSubmit,
@@ -25,12 +32,14 @@ function CreateFormPost() {
     defaultValues: { title: "", body: "", userId: 1 },
   });
 
+  // submit form
   function onSubmit(values: CreatePost) {
     mutate(values);
   }
 
   return (
     <section className="mx-auto max-w-6xl px-5 py-10 sm:px-8 sm:py-14">
+      {/* LINK: back to post list */}
       <Link
         className="group inline-flex items-center gap-2 text-sm font-medium text-slate-400 transition hover:text-white"
         to="/posts"
@@ -44,6 +53,7 @@ function CreateFormPost() {
         Back to posts
       </Link>
 
+      {/* HEADER */}
       <header className="mb-8 mt-8">
         <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-amber-300/20 bg-amber-300/10 px-3 py-1.5 text-xs font-semibold text-amber-200">
           <span className="size-1.5 rounded-full bg-amber-300" />
@@ -58,6 +68,7 @@ function CreateFormPost() {
         </p>
       </header>
 
+      {/* FORM: form event */}
       <form
         className="overflow-hidden rounded-2xl border border-white/10 bg-slate-900/70 shadow-2xl shadow-black/10"
         onSubmit={handleSubmit(onSubmit)}
@@ -70,6 +81,7 @@ function CreateFormPost() {
         </div>
 
         <div className="space-y-6 px-5 py-6 sm:px-7 sm:py-7">
+          {/* ALERT */}
           {mutationError && (
             <div
               className="flex items-start gap-3 rounded-xl border border-red-400/20 bg-red-400/5 p-4 text-sm text-red-200"
@@ -82,6 +94,7 @@ function CreateFormPost() {
             </div>
           )}
 
+          {/* INPUT: title */}
           <label className="block">
             <span className="mb-2 block text-sm font-semibold text-slate-200">
               Title <span className="text-amber-300">*</span>
@@ -114,6 +127,7 @@ function CreateFormPost() {
             )}
           </label>
 
+          {/* INPUT: body */}
           <label className="block">
             <span className="mb-2 block text-sm font-semibold text-slate-200">
               Content <span className="text-amber-300">*</span>
@@ -133,8 +147,8 @@ function CreateFormPost() {
                   message: "Body must be at least 2 characters.",
                 },
                 maxLength: {
-                  value: 120,
-                  message: "Body must be 120 characters or less.",
+                  value: 512,
+                  message: "Body must be 512 characters or less.",
                 },
               })}
             />
@@ -151,12 +165,14 @@ function CreateFormPost() {
             Your post will be added to the community feed.
           </p>
           <div className="flex gap-3">
+            {/* LINK: post list */}
             <Link
               className="inline-flex min-h-11 flex-1 items-center justify-center rounded-xl border border-white/10 px-4 text-sm font-semibold text-slate-300 transition hover:border-white/20 hover:bg-white/5 hover:text-white sm:flex-none"
               to="/posts"
             >
               Cancel
             </Link>
+            {/* BUTTON: submit form */}
             <button
               className="inline-flex min-h-11 flex-1 items-center justify-center gap-2 rounded-xl bg-amber-300 px-5 text-sm font-bold text-slate-950 transition hover:bg-amber-200 focus:outline-none focus:ring-4 focus:ring-amber-300/20 disabled:cursor-wait disabled:opacity-60 sm:flex-none"
               type="submit"

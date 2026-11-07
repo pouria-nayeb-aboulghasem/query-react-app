@@ -15,13 +15,23 @@ type UpdatePostContext = {
 };
 
 function OptimisticUI() {
+  // get post id from URL
   const { id } = useParams();
+
+  // validate page id
   const postId = Number(id);
   const isValidPostId = Number.isInteger(postId) && postId > 0;
+
+  // redirect to page
   const navigate = useNavigate();
+
+  // get/cancel/fetch post/posts
   const queryClient = useQueryClient();
+
+  // get feed by post id when page load
   const initializedPostId = useRef<number | null>(null);
 
+  // update post
   const {
     data: posts,
     isLoading,
@@ -31,8 +41,11 @@ function OptimisticUI() {
     queryKey: ["posts"],
     enabled: isValidPostId,
   });
+
+  // find current post
   const post = posts?.find((item) => item.id === postId);
 
+  // update current post
   const {
     mutate,
     isPending,
@@ -41,10 +54,15 @@ function OptimisticUI() {
     mutationFn: ({ id: postIdToUpdate, post: updatedFields }) =>
       updatePost(postIdToUpdate, updatedFields),
     mutationKey: ["posts", "update"],
+    // UI: update
     onMutate: async ({ id: postIdToUpdate, post: updatedFields }) => {
+      // cancel ongoing queries
       await queryClient.cancelQueries({ queryKey: ["posts"] });
+
+      // SNAPSHOT: get prev data
       const previousPosts = queryClient.getQueryData<Post[]>(["posts"]);
 
+      // UI: update cached data
       queryClient.setQueryData<Post[]>(["posts"], (currentPosts) =>
         currentPosts?.map((currentPost) =>
           currentPost.id === postIdToUpdate
@@ -57,20 +75,26 @@ function OptimisticUI() {
     },
     onError: (_error, _variables, context) => {
       if (context?.previousPosts) {
+        // rollback if the server request fails
         queryClient.setQueryData(["posts"], context.previousPosts);
       }
     },
     onSuccess: (updatedPost) => {
+      // update UI
       queryClient.setQueryData<Post[]>(["posts"], (currentPosts) =>
         currentPosts?.map((currentPost) =>
           currentPost.id === updatedPost.id ? updatedPost : currentPost,
         ),
       );
+
+      // redirect to home
       navigate("/");
     },
+    // synchronize with the server
     onSettled: () => queryClient.invalidateQueries({ queryKey: ["posts"] }),
   });
 
+  // react form hook api
   const {
     register,
     handleSubmit,
@@ -80,10 +104,12 @@ function OptimisticUI() {
   } = useForm<CreatePost>({
     defaultValues: { title: "", body: "", userId: 1 },
   });
+  //
   const titleValue = useWatch({ control, name: "title" });
   const bodyValue = useWatch({ control, name: "body" });
 
   useEffect(() => {
+    // feed initial data
     if (post && initializedPostId.current !== post.id) {
       reset({
         title: post.title,
@@ -95,6 +121,7 @@ function OptimisticUI() {
   }, [post, reset]);
 
   if (!isValidPostId) {
+    // check post id validation
     return (
       <section className="mx-auto max-w-3xl px-5 py-16 sm:px-8">
         <div
@@ -117,6 +144,7 @@ function OptimisticUI() {
   }
 
   if (isLoading) {
+    // loading
     return (
       <section className="mx-auto max-w-3xl px-5 py-16 sm:px-8">
         <div
@@ -131,6 +159,7 @@ function OptimisticUI() {
   }
 
   if (postsError) {
+    // post loading issue
     return (
       <section className="mx-auto max-w-3xl px-5 py-16 sm:px-8">
         <div
@@ -153,10 +182,11 @@ function OptimisticUI() {
   }
 
   if (!post) {
+    // post not found
     return (
       <section className="mx-auto max-w-3xl px-5 py-16 sm:px-8">
         <div
-          className="rounded-2xl border border-white/10 bg-white/[0.04] p-8 text-center"
+          className="rounded-2xl border border-white/10 bg-white/4 p-8 text-center"
           role="status"
         >
           <p className="text-sm font-semibold text-white">Post not found</p>
@@ -174,12 +204,14 @@ function OptimisticUI() {
     );
   }
 
+  // submit form
   function onSubmit(values: CreatePost) {
     mutate({ id: postId, post: values });
   }
 
   return (
     <section className="mx-auto max-w-6xl px-5 py-10 sm:px-8 sm:py-14">
+      {/* LINK: post list */}
       <Link
         className="group inline-flex items-center gap-2 text-sm font-medium text-slate-400 transition hover:text-white"
         to="/posts"
@@ -193,6 +225,7 @@ function OptimisticUI() {
         Back to posts
       </Link>
 
+      {/* HEADER */}
       <header className="mb-8 mt-8 flex flex-col justify-between gap-5 sm:flex-row sm:items-end">
         <div>
           <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-amber-300/20 bg-amber-300/10 px-3 py-1.5 text-xs font-semibold text-amber-200">
@@ -213,6 +246,7 @@ function OptimisticUI() {
       </header>
 
       <div className="grid items-start gap-6 lg:grid-cols-[minmax(0,1.6fr)_minmax(260px,0.8fr)]">
+        {/* FORM: form event */}
         <form
           className="overflow-hidden rounded-2xl border border-white/10 bg-slate-900/70 shadow-2xl shadow-black/10"
           onSubmit={handleSubmit(onSubmit)}
@@ -226,6 +260,7 @@ function OptimisticUI() {
           </div>
 
           <div className="space-y-6 px-5 py-6 sm:px-7 sm:py-7">
+            {/* ALERT */}
             {mutationError && (
               <div
                 className="flex items-start gap-3 rounded-xl border border-red-400/20 bg-red-400/5 p-4 text-sm text-red-200"
@@ -238,6 +273,7 @@ function OptimisticUI() {
               </div>
             )}
 
+            {/* INPUT: title */}
             <label className="block">
               <span className="mb-2 flex items-center justify-between text-sm font-semibold text-slate-200">
                 <span>
@@ -275,6 +311,7 @@ function OptimisticUI() {
               )}
             </label>
 
+            {/* INPUT: body */}
             <label className="block">
               <span className="mb-2 flex items-center justify-between text-sm font-semibold text-slate-200">
                 <span>
@@ -317,12 +354,15 @@ function OptimisticUI() {
               Changes are saved when you update the post.
             </p>
             <div className="flex gap-3">
+              {/* LINK: post list */}
               <Link
                 className="inline-flex min-h-11 flex-1 items-center justify-center rounded-xl border border-white/10 px-4 text-sm font-semibold text-slate-300 transition hover:border-white/20 hover:bg-white/5 hover:text-white sm:flex-none"
                 to="/posts"
               >
                 Cancel
               </Link>
+
+              {/* BUTTON: submit form */}
               <button
                 className="inline-flex min-h-11 flex-1 items-center justify-center gap-2 rounded-xl bg-amber-300 px-5 text-sm font-bold text-slate-950 transition hover:bg-amber-200 focus:outline-none focus:ring-4 focus:ring-amber-300/20 disabled:cursor-wait disabled:opacity-60 sm:flex-none"
                 type="submit"
